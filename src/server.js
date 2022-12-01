@@ -27,9 +27,8 @@ app.post("/sendmail", async (req, res) => {
       pass: process.env.NODEMAILER_PASS,
     },
     tls: {
-      // do not fail on invalid certs
-      rejectUnauthorized: false,
-    },
+        ciphers:'SSLv3'
+    }
   });
 
   // send mail with defined transport object
