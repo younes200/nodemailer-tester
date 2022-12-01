@@ -2,7 +2,7 @@
 
 ## To run
 
-Docker with docker-compose installed
+With docker installed :
 
 ```bash
 
@@ -11,15 +11,12 @@ Docker with docker-compose installed
     -e NODEMAILER_HOST=<mail_server_port>  \
     -e NODEMAILER_USER=<mail_server_user_name> \
     -e NODEMAILER_PASS=<mail_server_user_password> \
+    -e PORT=3000
     ghcr.io/younes200/nodemailer-tester
 
 ```
 
-NOTE if port_number is different than 3000 then should modify Dockerfile to match with the new value
-
-
-
-if everything works well we should see
+If everything works well we should see
 
 ```bash
 nodemailer-tester  | Service started on port 3000
@@ -27,25 +24,26 @@ nodemailer-tester  | Service started on port 3000
 
 ## To test
 
-Using REST CLIENT
-perform POST request with body
+Using `curl` perform `POST /sendmail` request with body
 
-```json
-{
-  "fromName": "MAIL FOO",
-  "fromEmail": "<sender>@<domain>.com",
-  "to": "<receiver>@<domain>.com",
-  "subject": "Hello to my friends from nodejs and expressjs",
-  "text": "This is text body",
-  "html": "<b>This is html body</b>"
-}
+```bash
+  curl --location --request POST 'http://localhost:3000/sendmail' \
+  --header 'Content-Type: application/json' \
+  --data-raw '{
+    "fromName": "MAIL FOO",
+    "fromEmail": "<sender>@<domain>.com",
+    "to": "<receiver>@<domain>.com",
+    "subject": "Hello to my friends from nodejs and expressjs",
+    "text": "This is text body",
+    "html": "<b>This is html body</b>"
+  }'
 ```
 
 should receive next 200 status response with body
 
 ```json
 {
-  "message": "Mail sended"
+  "message": "Mail sent"
 }
 ```
 
